@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Página Inicial</title>
+<title>Novo Usuário</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/bootstrap-5.0.2-dist/css/bootstrap.css" />
 <script type="text/javascript"
@@ -13,15 +13,14 @@
 	src="${pageContext.request.contextPath}/resources/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:include page="/publica/publica-nav.jsp"/>
+	<jsp:include page="/publica/publica-nav.jsp" />
 
 	<div class="container">
 		<div class="row">
 			<div class="column">
-				<h2 class="h1">Primeira página</h2>
+				<h2 class="h1">Cadastro de Usuário</h2>
 			</div>
 		</div>
-
 	</div>
 </body>
 </html>
