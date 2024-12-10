@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+
+import br.com.projetoservlet.dao.util.Conexao;
 
 @WebServlet("/publica")
 public class IndexControle extends HttpServlet {
@@ -40,6 +43,15 @@ public class IndexControle extends HttpServlet {
 	}
 	
 	private void novoUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		
+		Connection conexaoJDBC = Conexao.getConexao();
+		
+		if(conexaoJDBC != null) {
+			System.out.println("Conexão aberta!");
+		} else {
+			System.out.println("Sem Conexão");
+		}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("publica/publica-novo-usuario.jsp");
 		dispatcher.forward(request, response);
 	}
