@@ -7,17 +7,24 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
 
-import br.com.projetoservlet.dao.util.Conexao;
+import br.com.projetoservlet.dao.UsuarioDAO;
+import br.com.projetoservlet.model.Usuario;
+import br.com.projetoservlet.util.ManipulacaoData;
 
 @WebServlet("/publica")
 public class IndexControle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private UsuarioDAO usuarioDAO;
 
     public IndexControle() {
         super();
+    }
+    
+	public void init(){
+    	usuarioDAO = new UsuarioDAO();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,9 +39,13 @@ public class IndexControle extends HttpServlet {
 		String acao = request.getParameter("acao");
 		try {
 			switch(acao) {
-			case "novo":
-				novoUsuario(request, response);
-				break;
+				case "novo":
+					novoUsuario(request, response);
+					break;
+				case "salvar":
+					salvarUsuario(request, response);
+					break;
+			
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -43,16 +54,26 @@ public class IndexControle extends HttpServlet {
 	}
 	
 	private void novoUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		RequestDispatcher dispatcher = request.getRequestDispatcher("publica/publica-novo-usuario.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void salvarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		String nome = request.getParameter("nome");
+		String cpf = request.getParameter("cpf");
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
+		String login = request.getParameter("login");
+		String nascimento = request.getParameter("nascimento");
 		
-		Connection conexaoJDBC = Conexao.getConexao();
+		ManipulacaoData manipulacaoData = new ManipulacaoData();
+		Date dataNascimento = manipulacaoData.converterStringData(nascimento);
 		
-		if(conexaoJDBC != null) {
-			System.out.println("Conexão aberta!");
-		} else {
-			System.out.println("Sem Conexão");
-		}
+		Usuario usuario = new Usuario(nome, cpf, email, senha, login, dataNascimento, false);
+		Usuario usuarioSalvo = usuarioDAO.salvarUsuario(usuario);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("publica/publica-novo-usuario.jsp");
+		request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
 		dispatcher.forward(request, response);
 	}
 }
