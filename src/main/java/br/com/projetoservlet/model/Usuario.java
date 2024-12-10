@@ -28,6 +28,16 @@ public class Usuario {
 		this.ativo = ativo;
 	}
 	
+	public Usuario(String nome, String cpf, String email, String login, Date nascimento,
+			boolean ativo) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.login = login;
+		this.nascimento = nascimento;
+		this.ativo = ativo;
+	}
+	
 	public Long getId() {
 		return id;
 	}

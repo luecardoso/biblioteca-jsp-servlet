@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.projetoservlet.dao.util.Conexao;
 import br.com.projetoservlet.model.Usuario;
@@ -55,5 +57,34 @@ public class UsuarioDAO {
 		
 		usuario.setId(id);
 		return usuario;
+	}
+	
+	public List<Usuario> listarTodosUsuarios() throws SQLException{
+		List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+		String sql = "select * from usuario";
+		
+		conectar();
+		
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) {
+			long id = resultSet.getLong("id");
+			String nome = resultSet.getString("nome");
+			String cpf = resultSet.getString("cpf");
+			Date nascimento = new Date(resultSet.getDate("data_nascimento").getTime());
+			String email = resultSet.getString("email");
+			String login = resultSet.getString("login");
+			boolean ativo = resultSet.getBoolean("ativo");
+			
+			Usuario usuario = new Usuario(nome, cpf, email, login, nascimento, ativo);
+			usuario.setId(id);
+			listaUsuarios.add(usuario);
+		}
+		resultSet.close();
+		statement.close();
+		desconectar();
+		
+		return listaUsuarios;
 	}
 }
