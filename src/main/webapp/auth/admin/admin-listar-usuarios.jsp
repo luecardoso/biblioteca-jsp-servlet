@@ -45,6 +45,20 @@
 							<td>
 								<span><c:out value="${usuario.ativo=='true' ? 'ATIVO' : 'INATIVO' }" /> </span>
 							</td>
+							
+							
+							<!-- BOTÃO APAGAR-->
+							<td>
+								<a class="btn btn-outline-danger btn-sm"
+									onclick="return confirm('Você deseja apagar?');"
+									href="${pageContext.request.contextPath}/auth/admin?acao=apagar&id=<c:out value="${usuario.id}" />"
+									>
+									Apagar
+								</a>
+							
+							</td>
+							
+							
 						</tr>
 					</c:forEach>
 				</tbody>
