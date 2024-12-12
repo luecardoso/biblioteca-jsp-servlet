@@ -10,12 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.jsp.jstl.core.Config;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import br.com.projetoservlet.controle.i18n.I18nUtil;
+import br.com.projetoservlet.controle.seguranca.Criptografia;
 import br.com.projetoservlet.dao.UsuarioDAO;
 import br.com.projetoservlet.model.Usuario;
 import br.com.projetoservlet.util.ManipulacaoData;
@@ -64,7 +66,7 @@ public class IndexControle extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 	
-	private void salvarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+	private void salvarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, NoSuchAlgorithmException{
 		String nome = request.getParameter("nome");
 		String cpf = request.getParameter("cpf");
 		String email = request.getParameter("email");
@@ -72,23 +74,25 @@ public class IndexControle extends HttpServlet {
 		String login = request.getParameter("login");
 		String nascimento = request.getParameter("nascimento");
 		
+		String senhaCriptografada = Criptografia.converterParaMD5(senha);
+		
 		ManipulacaoData manipulacaoData = new ManipulacaoData();
 		Date dataNascimento = manipulacaoData.converterStringData(nascimento);
 		
-		Usuario usuario = new Usuario(nome, cpf, email, senha, login, dataNascimento, false);
+		Usuario usuario = new Usuario(nome, cpf, email, senhaCriptografada, login, dataNascimento, false);
 		Usuario usuarioSalvo = usuarioDAO.salvarUsuario(usuario);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("publica/publica-novo-usuario.jsp");
 		
-//		HttpSession httpSession = request.getSession();
+		HttpSession httpSession = request.getSession();
         Locale locale = request.getLocale();
-        locale.setDefault(new Locale("ENLGISH"));  
+
         I18nUtil i18nUtil = new I18nUtil();
         String texto = i18nUtil.getMensagem(locale, "publica-novo-usuario.mensagem");
         
-//        Config.set(httpSession, Config.FMT_LOCALE, locale);
-//        Config.set(httpSession, Config.FMT_FALLBACK_LOCALE, locale);
-//        
+        Config.set(httpSession, Config.FMT_LOCALE, locale);
+        Config.set(httpSession, Config.FMT_FALLBACK_LOCALE, locale);
+        
         
 		request.setAttribute("mensagem", texto);
 
