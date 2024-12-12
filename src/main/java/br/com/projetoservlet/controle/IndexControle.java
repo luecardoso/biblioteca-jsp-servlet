@@ -6,10 +6,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.jstl.core.Config;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import br.com.projetoservlet.controle.i18n.I18nUtil;
 import br.com.projetoservlet.dao.UsuarioDAO;
 import br.com.projetoservlet.model.Usuario;
 import br.com.projetoservlet.util.ManipulacaoData;
@@ -73,7 +79,19 @@ public class IndexControle extends HttpServlet {
 		Usuario usuarioSalvo = usuarioDAO.salvarUsuario(usuario);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("publica/publica-novo-usuario.jsp");
-		request.setAttribute("mensagem", "Usuário cadastrado com sucesso!");
+		
+//		HttpSession httpSession = request.getSession();
+        Locale locale = request.getLocale();
+        locale.setDefault(new Locale("ENLGISH"));  
+        I18nUtil i18nUtil = new I18nUtil();
+        String texto = i18nUtil.getMensagem(locale, "publica-novo-usuario.mensagem");
+        
+//        Config.set(httpSession, Config.FMT_LOCALE, locale);
+//        Config.set(httpSession, Config.FMT_FALLBACK_LOCALE, locale);
+//        
+        
+		request.setAttribute("mensagem", texto);
+
 		dispatcher.forward(request, response);
 	}
 }

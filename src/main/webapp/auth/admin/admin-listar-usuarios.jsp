@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<fmt:setBundle basename="messages.messages_en_US" var="msg" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Lista de Usuários</title>
+<title><fmt:message key="auth.admin.titulo"  bundle="${msg}"/></title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/bootstrap-5.0.2-dist/css/bootstrap.css" />
 <script type="text/javascript"
@@ -19,16 +20,16 @@
 
 	<div class="container">
 		<div class="row">
-			<h2>Lista de Usuários</h2>
+			<h2><fmt:message key="auth.admin.header"  bundle="${msg}"/></h2>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Id</th>
-						<th>Nome</th>
-						<th>CPF</th>
-						<th>Data Nasc.</th>
-						<th>Email</th>
-						<th>Status</th>
+						<th><fmt:message key="auth.admin.id"  bundle="${msg}"/></th>
+						<th><fmt:message key="auth.admin.nome"  bundle="${msg}"/></th>
+						<th><fmt:message key="auth.admin.cpf"  bundle="${msg}"/></th>
+						<th><fmt:message key="auth.admin.nascimento"  bundle="${msg}"/></th>
+						<th><fmt:message key="auth.admin.email"  bundle="${msg}"/></th>
+						<th><fmt:message key="auth.admin.status"  bundle="${msg}"/></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -53,7 +54,7 @@
 									onclick="return confirm('Você deseja apagar?');"
 									href="${pageContext.request.contextPath}/auth/admin?acao=apagar&id=<c:out value="${usuario.id}" />"
 									>
-									Apagar
+									<fmt:message key="auth.admin.apagar"  bundle="${msg}"/>
 								</a>
 							
 							</td>
