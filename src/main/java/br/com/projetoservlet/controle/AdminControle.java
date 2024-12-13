@@ -10,13 +10,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.com.projetoservlet.dao.PapelDAO;
 import br.com.projetoservlet.dao.UsuarioDAO;
+import br.com.projetoservlet.model.Papel;
 import br.com.projetoservlet.model.Usuario;
 
 @WebServlet("/auth/admin")
 public class AdminControle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UsuarioDAO usuarioDAO;
+	private PapelDAO papelDAO;
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

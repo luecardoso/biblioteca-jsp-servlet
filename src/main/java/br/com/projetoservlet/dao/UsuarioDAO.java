@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.projetoservlet.dao.util.Conexao;
+import br.com.projetoservlet.model.Papel;
 import br.com.projetoservlet.model.Usuario;
 
 public class UsuarioDAO {
@@ -60,6 +61,7 @@ public class UsuarioDAO {
 	}
 	
 	public List<Usuario> listarTodosUsuarios() throws SQLException{
+		PapelDAO papelDAO =  new PapelDAO();
 		List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 		String sql = "select * from usuario";
 		
@@ -79,6 +81,9 @@ public class UsuarioDAO {
 			
 			Usuario usuario = new Usuario(nome, cpf, email, login, nascimento, ativo);
 			usuario.setId(id);
+			
+			List<Papel> papeis =  papelDAO.buscarPapelUsuario(usuario);
+			usuario.setPapeis(papeis);
 			listaUsuarios.add(usuario);
 		}
 		resultSet.close();

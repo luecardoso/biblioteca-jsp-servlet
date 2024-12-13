@@ -1,6 +1,7 @@
 package br.com.projetoservlet.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Usuario {
 
@@ -12,6 +13,8 @@ public class Usuario {
 	private String login;
 	private Date nascimento;
 	private boolean ativo;
+	
+	private List<Papel> papeis;
 	
 	public Usuario() {
 		
@@ -85,6 +88,14 @@ public class Usuario {
 	}
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	public List<Papel> getPapeis() {
+		return papeis;
+	}
+
+	public void setPapeis(List<Papel> papeis) {
+		this.papeis = papeis;
 	}
 
 	@Override

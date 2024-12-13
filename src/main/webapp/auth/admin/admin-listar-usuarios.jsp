@@ -44,6 +44,11 @@
 							</td>
 							<td><c:out value="${usuario.email}" /></td>
 							<td>
+								<c:forEach var="papel" items="${usuario.papeis}">
+									<span><c:out value="${papel.tipoPapel}" /></span>
+								</c:forEach>
+							</td>
+							<td>
 								<span><c:out value="${usuario.ativo=='true' ? 'ATIVO' : 'INATIVO' }" /> </span>
 							</td>
 							
